@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tạo link mời khách · Định & Tiên</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Playfair+Display:wght@400;500&display=swap&subset=vietnamese" rel="stylesheet">
+<style>
+@font-face{font-family:"UVF Mussica Swash";src:local("UVF Mussica Swash"),url("fonts/UVF-MussicaSwash.woff2") format("woff2"),url("fonts/UVF-MussicaSwash.ttf") format("truetype"),url("fonts/UVF-MussicaSwash.otf") format("opentype");font-display:swap}
+@font-face{font-family:"MTD Hello Paris Serif";src:local("MTD Hello Paris Serif"),url("fonts/MTD-HelloParisSerif.woff2") format("woff2"),url("fonts/MTD-HelloParisSerif.ttf") format("truetype"),url("fonts/MTD-HelloParisSerif.otf") format("opentype");font-display:swap}
+:root{--cream:#fdf8f3;--blush:#f6e3dd;--wine:#7a1d32;--wine-dark:#4a0f1e;--rose:#c4506a;--gold:#9a6b2c;--line:rgba(180,140,85,.4);--ink:#4b2a2f;--muted:#8c6b6b;
+  --f-script:"UVF Mussica Swash","Great Vibes",cursive;--f-display:"MTD Hello Paris Serif","Playfair Display",Georgia,serif;--f-body:"Cormorant Garamond",Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--blush);background-image:radial-gradient(900px 500px at 0 0,#fff6f1,transparent 60%),radial-gradient(800px 600px at 100% 100%,#f1d2cb,transparent 60%);
+  background-attachment:fixed;color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.5;min-height:100vh;padding:28px 16px 60px}
+.wrap{max-width:900px;margin:0 auto}
+header{text-align:center;margin-bottom:22px}
+header img{width:72px;margin:0 auto 6px;display:block}
+h1{font-family:var(--f-script);font-weight:400;color:var(--wine);font-size:clamp(40px,8vw,56px);line-height:1.15}
+header p{color:var(--muted);font-style:italic}
+.panel{background:var(--cream);border:1px solid var(--line);border-radius:10px;padding:22px;box-shadow:0 14px 40px rgba(90,24,37,.07);margin-bottom:18px}
+.panel h2{font-family:var(--f-display);font-weight:500;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--wine);margin-bottom:12px}
+label{display:block;font-family:var(--f-display);font-size:13px;letter-spacing:.06em;color:var(--muted);margin:12px 0 6px}
+input,textarea{width:100%;font:inherit;font-size:17px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;outline:none}
+input:focus,textarea:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(184,101,108,.15)}
+textarea{min-height:180px;resize:vertical;line-height:1.5}
+.hint{font-size:15px;color:var(--muted);margin-top:6px}
+.hint code{background:#f6e8e2;padding:1px 6px;border-radius:4px;font-size:14px}
+.warn{display:none;margin-top:10px;background:#fff3e6;border:1px solid #e9c690;border-radius:8px;padding:10px 12px;font-size:15.5px}
+.warn.show{display:block}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:999px;border:1px solid var(--wine);background:transparent;color:var(--wine);
+  font-family:var(--f-display);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:.2s}
+.btn:hover{background:var(--wine);color:#fff}
+.btn.solid{background:var(--wine);color:#fff}
+.btn.solid:hover{background:var(--wine-dark)}
+.btn.sm{padding:6px 12px;font-size:11px}
+table{width:100%;border-collapse:collapse;font-size:16.5px}
+th{font-family:var(--f-display);font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid rgba(180,140,85,.2);vertical-align:middle}
+td.n{color:var(--muted);width:36px}
+td.name{font-weight:600;color:var(--wine);min-width:140px}
+td.link a{color:var(--ink);word-break:break-all;font-size:14.5px}
+td.act{white-space:nowrap;text-align:right}
+td.act .btn{margin-left:4px}
+.empty{color:var(--muted);font-style:italic;text-align:center;padding:20px}
+.count{font-family:var(--f-display);font-size:13px;color:var(--muted);margin-left:auto;align-self:center}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--wine);color:#fff;padding:10px 20px;border-radius:999px;
+  font-family:var(--f-display);font-size:13px;letter-spacing:.06em;opacity:0;transition:.3s;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%)}
+@media (max-width:640px){
+  thead{display:none}
+  tr{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;padding:10px 0;border-bottom:1px solid rgba(180,140,85,.25)}
+  td{border:0;padding:2px 4px}
+  td.n{grid-row:span 3}
+  td.act{text-align:left}
+  td.act .btn{margin:4px 4px 0 0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="assets/logo.png" alt="">
+    <h1>Tạo link mời khách</h1>
+    <p>Mỗi khách một đường link riêng — trang bìa thiệp sẽ hiện đúng tên người được mời.</p>
+  </header>
+
+  <div class="panel">
+    <h2>1 · Địa chỉ thiệp</h2>
+    <label for="base">Đường dẫn tới trang thiệp (index.html)</label>
+    <input id="base" type="url" spellcheck="false" placeholder="https://ten-mien-cua-ban/">
+    <p class="hint">Tự điền theo nơi đang mở trang này. Nếu bạn đưa thiệp lên tên miền khác, hãy sửa lại ở đây.</p>
+    <div class="warn" id="fileWarn">Bạn đang mở trang từ máy tính (file://). Link tạo ra chỉ mở được trên máy này. Hãy đưa thư mục thiệp lên mạng (GitHub Pages, Netlify…) rồi nhập địa chỉ web vào ô trên trước khi gửi cho khách.</div>
+
+    <h2 style="margin-top:22px">2 · Danh sách khách mời</h2>
+    <label for="names">Mỗi dòng một tên (ghi cả cách xưng hô nếu muốn)</label>
+    <textarea id="names" placeholder="Anh Minh &amp; Chị Hương&#10;Cô Lan và gia đình&#10;Bạn Tuấn"></textarea>
+
+    <label for="tpl">Tin nhắn mẫu khi gửi Zalo/Messenger — dùng <code>{ten}</code> và <code>{link}</code></label>
+    <textarea id="tpl" style="min-height:90px"></textarea>
+
+    <div class="row">
+      <button class="btn solid" id="gen" type="button">Tạo link</button>
+      <button class="btn" id="copyAll" type="button">Sao chép tất cả</button>
+      <button class="btn" id="csv" type="button">Tải file Excel (CSV)</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="row" style="margin:0 0 8px">
+      <h2 style="margin:0">3 · Link cho từng khách</h2><span class="count" id="count"></span>
+    </div>
+    <table>
+      <thead><tr><th>#</th><th>Khách mời</th><th>Link</th><th></th></tr></thead>
+      <tbody id="out"><tr><td colspan="4" class="empty">Nhập danh sách khách rồi bấm “Tạo link”.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var KEY = 'dt-wedding-guests-v1';
+  var DEFAULT_TPL = 'Trân trọng kính mời {ten} tới dự Lễ Thành Hôn của Công Định & Thủy Tiên vào Thứ Bảy, 26.12.2026 tại Hải Phòng. Thiệp mời: {link}';
+
+  function store(k, v){ try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); localStorage.setItem(k, JSON.stringify(v)); } catch(e){ return null; } }
+
+  // Địa chỉ mặc định: index.html cùng thư mục với trang này
+  var autoBase = new URL('index.html', location.href).href;
+  var saved = store(KEY) || {};
+  $('base').value = saved.base || autoBase;
+  $('names').value = saved.names || '';
+  $('tpl').value = saved.tpl || DEFAULT_TPL;
+  if (location.protocol === 'file:') $('fileWarn').classList.add('show');
+
+  function save(){ store(KEY, {base:$('base').value.trim(), names:$('names').value, tpl:$('tpl').value}); }
+  ['base','names','tpl'].forEach(function(id){ $(id).addEventListener('input', save); });
+
+  function linkFor(name){
+    var u;
+    try { u = new URL($('base').value.trim() || autoBase); } catch(e){ u = new URL(autoBase); }
+    u.searchParams.set('to', name);
+    return u.href.replace(/\+/g, '%20');
+  }
+  function msgFor(name, link){ return ($('tpl').value || DEFAULT_TPL).split('{ten}').join(name).split('{link}').join(link); }
+  function list(){
+    var seen = {};
+    return $('names').value.split(/\r?\n/).map(function(s){ return s.replace(/\s+/g,' ').trim(); })
+      .filter(function(s){ if (!s || seen[s]) return false; seen[s]=1; return true; });
+  }
+  function toast(t){ var el=$('toast'); el.textContent=t; el.classList.add('show'); clearTimeout(el._t); el._t=setTimeout(function(){el.classList.remove('show');},1800); }
+  function copy(text, ok){
+    var done = function(){ toast(ok || 'Đã sao chép'); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+    function fallback(){
+      var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); done(); }catch(e){ toast('Không sao chép được – hãy chọn và copy thủ công'); }
+      ta.remove();
+    }
+  }
+  function render(){
+    var names = list(), out = $('out');
+    out.innerHTML = '';
+    $('count').textContent = names.length ? names.length + ' khách' : '';
+    if (!names.length){ out.innerHTML = '<tr><td colspan="4" class="empty">Nhập danh sách khách rồi bấm “Tạo link”.</td></tr>'; return; }
+    names.forEach(function(name, i){
+      var link = linkFor(name);
+      var tr = document.createElement('tr');
+      var td = function(cls){ var c=document.createElement('td'); c.className=cls; tr.appendChild(c); return c; };
+      td('n').textContent = i+1;
+      td('name').textContent = name;
+      var a = document.createElement('a'); a.href=link; a.target='_blank'; a.rel='noopener'; a.textContent=link; td('link').appendChild(a);
+      var act = td('act');
+      var b1=document.createElement('button'); b1.className='btn sm'; b1.type='button'; b1.textContent='Copy link';
+      b1.onclick=function(){ copy(link,'Đã sao chép link của ' + name); };
+      var b2=document.createElement('button'); b2.className='btn sm solid'; b2.type='button'; b2.textContent='Copy lời mời';
+      b2.onclick=function(){ copy(msgFor(name, link),'Đã sao chép lời mời cho ' + name); };
+      act.appendChild(b1); act.appendChild(b2);
+      out.appendChild(tr);
+    });
+  }
+  $('gen').onclick = function(){ save(); render(); };
+  $('base').addEventListener('change', render);
+  $('copyAll').onclick = function(){
+    var names = list(); if (!names.length) return toast('Chưa có khách nào');
+    copy(names.map(function(n){ return n + '\t' + linkFor(n); }).join('\n'), 'Đã sao chép ' + names.length + ' link');
+  };
+  $('csv').onclick = function(){
+    var names = list(); if (!names.length) return toast('Chưa có khách nào');
+    var q = function(s){ return '"' + String(s).replace(/"/g,'""') + '"'; };
+    var rows = [['STT','Khách mời','Link','Lời mời']].concat(names.map(function(n,i){ var l=linkFor(n); return [i+1,n,l,msgFor(n,l)]; }));
+    var csv = '﻿' + rows.map(function(r){ return r.map(q).join(','); }).join('\r\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+    a.download = 'link-khach-moi-dinh-tien.csv';
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  };
+  if (list().length) render();
+})();
+</script>
+</body>
+</html>
